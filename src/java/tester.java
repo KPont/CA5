@@ -39,6 +39,8 @@ public class tester {
         reservationJpaController rjc = new reservationJpaController(emf);
         seatJpaController sjc = new seatJpaController(emf);
 
+        
+        //Laver flight instance, og hvad sådan en skal bruge
         List<String> totalSeats = new ArrayList();
         List<String> freeSeats = new ArrayList();
 
@@ -65,6 +67,8 @@ public class tester {
 
         fijc.create(fI);
         
+        
+        ////laver en reservation til den nye flightinstance
         List<String> orderedSeats = new ArrayList();
         orderedSeats.add(seatA);
         

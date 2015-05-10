@@ -25,14 +25,14 @@ public class flight implements Serializable {
     private Integer id;
     
     private String type;
-    private List<Integer> totalSeats;
+    private List<String> totalSeats;
     @OneToMany(mappedBy = "flight")
     private List<flightInstance> flightInstances;
 
     public flight() {
     }
     
-    public flight(String type, List<Integer> totalSeats) {
+    public flight(String type, List<String> totalSeats) {
         this.type = type;
         this.totalSeats = totalSeats;
     }
@@ -45,11 +45,11 @@ public class flight implements Serializable {
         this.type = type;
     }
 
-    public List<Integer> getTotalSeats() {
+    public List<String> getTotalSeats() {
         return totalSeats;
     }
 
-    public void setTotalSeats(List<Integer> totalSeats) {
+    public void setTotalSeats(List<String> totalSeats) {
         this.totalSeats = totalSeats;
     }
 

@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,29 +25,19 @@ public class seat implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     
-    private int seatNumber;
-    @ManyToOne
-    private reservation reservation;
+    private List<String> seats;
     
-    @OneToOne(mappedBy = "seat")
+    
+    @OneToOne
     private Customer customer;
-
-    public seat(int seatNumber) {
-        this.seatNumber = seatNumber;
-    }
 
     public seat() {
     }
-    
 
-    public int getSeatNumber() {
-        return seatNumber;
+    public seat(List<String> seats, Customer customer) {
+        this.seats = seats;
+        this.customer = customer;
     }
-
-    public void setSeatNumber(int seatNumber) {
-        this.seatNumber = seatNumber;
-    }
-    
 
     public Integer getId() {
         return id;
@@ -56,6 +47,23 @@ public class seat implements Serializable {
         this.id = id;
     }
 
+    public List<String> getSeats() {
+        return seats;
+    }
+
+    public void setSeats(List<String> seats) {
+        this.seats = seats;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    
     
     
 }

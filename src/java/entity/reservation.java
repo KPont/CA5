@@ -28,13 +28,20 @@ public class reservation implements Serializable {
     @ManyToOne
     private flightInstance flightInstance;
 
-    @OneToMany(mappedBy = "reservation")
-    private List<seat> seats;
+    
+    @OneToOne
+    private seat seat;
     
     @OneToOne
     private Customer customer;
     
     public reservation() {
+    }
+
+    public reservation(flightInstance flightInstance, seat seat, Customer customer) {
+        this.flightInstance = flightInstance;
+        this.seat = seat;
+        this.customer = customer;
     }
     
     

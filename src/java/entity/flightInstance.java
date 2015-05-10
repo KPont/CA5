@@ -26,59 +26,60 @@ public class flightInstance implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    private String datee;
-    private String arrival;
-    private String departure;
+    private String takeOffDate;
+    private String landingDate;
     private String price;
-    private List<Integer> freeSeats;
+    private List<String> freeSeats;
     
     @OneToOne
-    private airport airportFrom;
+    private airport departure;
     
     @OneToOne
-    private airport airportTo;
+    private airport arrival;
     
     @ManyToOne
     private flight flight;
     
     @OneToMany(mappedBy = "flightInstance")
     private List<reservation> reservations;
+
     
- 
-    public flightInstance(String datee, String arrival, String departure, String price, List<Integer> freeSeats) {
-        this.datee = datee;
-        this.arrival = arrival;
-        this.departure = departure;
+
+    public flightInstance(String takeOffDate, String landingDate, String price, List<String> freeSeats, airport departure, airport arrival, flight flight) {
+        this.takeOffDate = takeOffDate;
+        this.landingDate = landingDate;
         this.price = price;
         this.freeSeats = freeSeats;
-    }
-
-    public flightInstance() {
+        this.departure = departure;
+        this.arrival = arrival;
+        this.flight = flight;
     }
     
-
-    public String getDatee() {
-        return datee;
+    public flightInstance() {
     }
 
-    public void setDatee(String datee) {
-        this.datee = datee;
+    public Integer getId() {
+        return id;
     }
 
-    public String getArrival() {
-        return arrival;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public void setArrival(String arrival) {
-        this.arrival = arrival;
+    public String getTakeOffDate() {
+        return takeOffDate;
     }
 
-    public String getDeparture() {
-        return departure;
+    public void setTakeOffDate(String takeOffDate) {
+        this.takeOffDate = takeOffDate;
     }
 
-    public void setDeparture(String departure) {
-        this.departure = departure;
+    public String getLandingDate() {
+        return landingDate;
+    }
+
+    public void setLandingDate(String landingDate) {
+        this.landingDate = landingDate;
     }
 
     public String getPrice() {
@@ -89,23 +90,46 @@ public class flightInstance implements Serializable {
         this.price = price;
     }
 
-    public List<Integer> getFreeSeats() {
+    public List<String> getFreeSeats() {
         return freeSeats;
     }
 
-    public void setFreeSeats(List<Integer> freeSeats) {
+    public void setFreeSeats(List<String> freeSeats) {
         this.freeSeats = freeSeats;
     }
-    
-    
-    
-    public Integer getId() {
-        return id;
+
+    public airport getDeparture() {
+        return departure;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setDeparture(airport departure) {
+        this.departure = departure;
     }
 
-      
+    public airport getArrival() {
+        return arrival;
+    }
+
+    public void setArrival(airport arrival) {
+        this.arrival = arrival;
+    }
+
+    public flight getFlight() {
+        return flight;
+    }
+
+    public void setFlight(flight flight) {
+        this.flight = flight;
+    }
+
+    public List<reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<reservation> reservations) {
+        this.reservations = reservations;
+    }
+    
+ 
+    
 }

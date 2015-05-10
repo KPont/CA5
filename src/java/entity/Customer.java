@@ -29,20 +29,23 @@ public class Customer implements Serializable {
     private String city;
     private String zip;
     private String country;
-    @OneToOne
-    private seat seat;
+    
 
     public Customer() {
     }
 
-    
-    public Customer(String firstName, String lastName, String city, String country, String street) {
+    public Customer(String firstName, String lastName, String street, String city, String zip, String country) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.city = city;
-        this.country = country;
         this.street = street;
+        this.city = city;
+        this.zip = zip;
+        this.country = country;
+        
     }
+
+    
+    
 
     public String getFirstName() {
         return firstName;

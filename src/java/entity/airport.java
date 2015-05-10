@@ -19,7 +19,7 @@ import javax.persistence.Id;
 public class airport implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    private Integer code;
+    private String code;
     
     private String city;
 
@@ -27,16 +27,16 @@ public class airport implements Serializable {
     }
     
 
-    public airport(Integer code, String city) {
+    public airport(String code, String city) {
         this.code = code;
         this.city = city;
     }
 
-    public Integer getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
@@ -48,15 +48,6 @@ public class airport implements Serializable {
         this.city = city;
     }
     
-    
-
-    public Integer getId() {
-        return code;
-    }
-
-    public void setId(Integer code) {
-        this.code = code;
-    }
 
     
 }

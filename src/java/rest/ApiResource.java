@@ -8,13 +8,14 @@ package rest;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.Gson;
 import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -109,8 +110,10 @@ public class ApiResource {
     @GET
     @Produces("application/json")
     @Path("{startAirport}/{date}")
-    public String getFlight(@PathParam("startAirport") String start, @PathParam("date") String date) {
-        Date datee = new Date(date);
+    public String getFlight(@PathParam("startAirport") String start, @PathParam("date") String date) throws ParseException {
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        Date datee = df.parse(date);
+        //Date datee = new Date(date);
         long utcDateInMil = datee.getTime();
         String str = "";
         boolean fail = true;

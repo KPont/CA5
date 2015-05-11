@@ -14,8 +14,8 @@ import java.util.Date;
 public class testData {
       
    private String airline;
-   private double price;
-   private String flightId;
+   private long price;
+   private int flightId;
    private String takeOffDate;
    private String landingDate;
    private String departure;
@@ -24,7 +24,7 @@ public class testData {
    private int availSeats;
    private boolean bookingCode;
 
-    public testData(String airline, double price, String flightId, String takeOffDate, String landingDate, String departure, String destination, int seats, int availSeats, boolean bookingCode) {
+    public testData(String airline, long price, int flightId, String takeOffDate, String landingDate, String departure, String destination, int seats, int availSeats, boolean bookingCode) {
         this.airline = airline;
         this.price = price;
         this.flightId = flightId;
@@ -49,15 +49,15 @@ public class testData {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(long price) {
         this.price = price;
     }
 
-    public String getFlightId() {
+    public int getFlightId() {
         return flightId;
     }
 
-    public void setFlightId(String flightId) {
+    public void setFlightId(int flightId) {
         this.flightId = flightId;
     }
 

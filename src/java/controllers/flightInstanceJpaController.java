@@ -30,6 +30,23 @@ public class flightInstanceJpaController implements Serializable {
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
+    
+    public List<flightInstance> getFlightByStartAndDate(String departure, String startDate){
+        EntityManager em = getEntityManager();
+         Query q = em.createQuery("SELECT f FROM flightInstance f WHERE f.takeOffDate = '" +startDate+"' AND f.departure.code = '" +departure+"'"); 
+                                    //select * from TEST.FLIGHTINSTANCE where TAKEOFFDATE = '11-05-2015' and DEPARTURE_CODE = 'CPH';
+
+         List<flightInstance> fiList = q.getResultList();
+         return fiList;
+    }
+    public List<flightInstance> getFlightByStartEndAndDate(String departure, String arrival, String startDate){
+        EntityManager em = getEntityManager();
+         Query q = em.createQuery("SELECT f FROM flightInstance f WHERE f.takeOffDate = '" +startDate+"' AND f.departure.code = '" +departure+"' AND f.arrival.code = '" +arrival+"'"); 
+                                    //select * from TEST.FLIGHTINSTANCE where TAKEOFFDATE = '11-05-2015' and DEPARTURE_CODE = 'CPH';
+
+         List<flightInstance> fiList = q.getResultList();
+         return fiList;
+    }
 
     public void create(flightInstance flightInstance) {
         EntityManager em = null;

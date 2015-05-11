@@ -7,6 +7,7 @@ package entity;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -41,6 +42,30 @@ public class reservation implements Serializable {
     public reservation(flightInstance flightInstance, seat seat, Customer customer) {
         this.flightInstance = flightInstance;
         this.seat = seat;
+        this.customer = customer;
+    }
+
+    public flightInstance getFlightInstance() {
+        return flightInstance;
+    }
+
+    public void setFlightInstance(flightInstance flightInstance) {
+        this.flightInstance = flightInstance;
+    }
+
+    public seat getSeat() {
+        return seat;
+    }
+
+    public void setSeat(seat seat) {
+        this.seat = seat;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
         this.customer = customer;
     }
     

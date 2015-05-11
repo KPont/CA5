@@ -1,5 +1,6 @@
 
 import controllers.CustomerJpaController;
+import controllers.Facade;
 import controllers.airportJpaController;
 import controllers.flightInstanceJpaController;
 import controllers.flightJpaController;
@@ -16,6 +17,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import rest.ApiResource;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -39,7 +41,6 @@ public class tester {
         reservationJpaController rjc = new reservationJpaController(emf);
         seatJpaController sjc = new seatJpaController(emf);
 
-        
         //Laver flight instance, og hvad sådan en skal bruge
         List<String> totalSeats = new ArrayList();
         List<String> freeSeats = new ArrayList();
@@ -66,24 +67,29 @@ public class tester {
         flightInstance fI = new flightInstance("11-05-2015", "11-05-2015", "1234", freeSeats, airportFrom, airportTo, flight);
 
         fijc.create(fI);
-        
-        
+
         ////laver en reservation til den nye flightinstance
         List<String> orderedSeats = new ArrayList();
         orderedSeats.add(seatA);
-        
-        
-        
+
         Customer cust = new Customer("steve", "stevenson", "Hvidovrevej", "Hvidovre", "2650", "Denmark");
-        
+
         cjc.create(cust);
-        
+
         seat seat = new seat(freeSeats, cust);
-        sjc.create(seat);
-        
+        //sjc.create(seat);
+
         reservation res = new reservation(fI, seat, cust);
-        
-        rjc.create(res);
+
+        //rjc.create(res);
+        Facade facade = new Facade();
+        facade.createRes(cust, orderedSeats, fI.getId());
+        facade.deleteRes(5);
+//facade.getFlightStartEndDate("CPH","BAR", "11-05-2015");
+//        System.out.println("TESTER:  "+facade.getjson());
+        //facade.getResId(5);
+        ApiResource apiR = new ApiResource();
+//        System.out.println("TESTER API   :  "+apiR.getJson());
     }
 
 }

@@ -5,19 +5,21 @@
  */
 package rest;
 
+import entity.Customer;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Kasper
  */
-public class reservation {
-    private String reservationID;
-    private String flightID;
-    private ArrayList<passengers> Passengers;
-    private double totalPrice;
+public class Reservations {
+    private int reservationID;
+    private int flightID;
+    private List<Customer> Passengers;
+    private long totalPrice;
 
-    public reservation(String reservationID, String flightID, ArrayList<passengers> Passengers, double totalPrice) {
+    public Reservations(int reservationID, int flightID, List<Customer> Passengers, long totalPrice) {
         this.reservationID = reservationID;
         this.flightID = flightID;
         this.Passengers = Passengers;
@@ -25,27 +27,27 @@ public class reservation {
     }
 
     
-    public String getReservationID() {
+    public int getReservationID() {
         return reservationID;
     }
 
-    public void setReservationID(String reservationID) {
+    public void setReservationID(int reservationID) {
         this.reservationID = reservationID;
     }
 
-    public String getFlightID() {
+    public int getFlightID() {
         return flightID;
     }
 
-    public void setFlightID(String flightID) {
+    public void setFlightID(int flightID) {
         this.flightID = flightID;
     }
 
-    public ArrayList<passengers> getPassengers() {
+    public List<Customer> getPassengers() {
         return Passengers;
     }
 
-    public void setPassengers(ArrayList<passengers> Passengers) {
+    public void setPassengers(List<Customer> Passengers) {
         this.Passengers = Passengers;
     }
 
@@ -53,7 +55,7 @@ public class reservation {
         return totalPrice;
     }
 
-    public void setTotalPrice(double totalPrice) {
+    public void setTotalPrice(long totalPrice) {
         this.totalPrice = totalPrice;
     }
 }

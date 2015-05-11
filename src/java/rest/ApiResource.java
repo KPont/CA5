@@ -7,11 +7,15 @@ package rest;
 
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.Gson;
+import controllers.Facade;
+import controllers.exceptions.NonexistentEntityException;
+import entity.Customer;
 import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
@@ -32,18 +36,9 @@ import javax.ws.rs.core.Response;
 @Path("flights")
 public class ApiResource {
 
+    Facade facade = new Facade();
     Gson gson = new Gson();
-    testData td1 = new testData("Airways1", 220.5, "AW311", "07-05-2015", "07-07-2015", "CPH", "MAD", 151, 71, false);
-    testData td2 = new testData("Airways2", 220.5, "AW312", "07-07-2015", "07-08-2015", "SGF", "BBK", 152, 72, true);
-    testData td3 = new testData("Airways3", 220.5, "AW313", "07-07-2015", "07-13-2015", "CPH", "PAH", 153, 73, false);
-    testData td4 = new testData("Airways4", 220.5, "AW314", "07-05-2015", "07-07-2015", "FYV", "DND", 154, 74, true);
-    ArrayList<testData> tdList = new ArrayList();
-    passengers pas = new passengers("Kasper", "Pont", "Fredby", "Danmark", "Danvang");
-    passengers pas2 = new passengers("Chris", "Kron", "Fredby", "Danmark", "Benvej");
-    ArrayList<passengers> aPas = new ArrayList();
-    reservation res = new reservation("a358sd", "AW311", aPas, 441.3);
-    ArrayList<reservation> aRes = new ArrayList();
-//    facade fac = new facade();
+
     @Context
     private UriInfo context;
 
@@ -51,36 +46,25 @@ public class ApiResource {
      * Creates a new instance of ApiResource
      */
     public ApiResource() {
-        
-          
-          tdList.add(td1);
-          tdList.add(td2);
-          tdList.add(td3);
-          tdList.add(td4);
-          
-          res.getPassengers().add(pas);
-          res.getPassengers().add(pas2);
-          aRes.add(res);
+
     }
 
     /**
      * Retrieves representation of an instance of rest.ApiResource
+     *
      * @return an instance of java.lang.String
      */
     @GET
     @Produces("application/json")
-    public String getJson() {
-        String str = "";
-        for(int i = 0; i < tdList.size(); i++) {
-            str += gson.toJson(tdList.get(i));
-        }
-             
-        return str;
+    public Object getJson() {
+        return facade.getjson();
     }
 
     /**
      * PUT method for updating or creating an instance of ApiResource
+     *
      * @param pas
+     * @param seats
      * @param flightId
      * @param content representation for the resource
      * @return an HTTP response with content of the updated or created resource.
@@ -89,90 +73,39 @@ public class ApiResource {
     @Produces("application/json")
     @Consumes("application/json")
     @Path("{flightId}")
-    public String postJson(String pas, @PathParam("flightId") String flightId) {
-        String str = "";
-        boolean excp = true;
-        for (int i = 0; i < tdList.size(); i++) {
-            if(tdList.get(i).getFlightId().equals(flightId)){
-                excp = false;
-            }
-        }
-        if(excp){
-            throw new NotValidException("No flight found with the given ID");
-        }
-        Type collectionType = new TypeToken<ArrayList<passengers>>(){}.getType();
-        ArrayList<passengers> list = gson.fromJson(pas, collectionType);
-        
-        reservation res = new reservation("a358sd", flightId, list, 441.3);
-        str = gson.toJson(res);
-        return str;
+    public Object postJson(String pas, List<String> seats, @PathParam("flightId") String flightId) {
+        Type collectionType = new TypeToken<List<Customer>>() {
+        }.getType();
+        List<Customer> customers = gson.fromJson(pas, collectionType);
+        return facade.createRes(customers.get(0), seats, Integer.parseInt(flightId));
+
     }
-    
+
     @GET
     @Produces("application/json")
     @Path("{startAirport}/{date}")
-    public String getFlight(@PathParam("startAirport") String start, @PathParam("date") String date) throws ParseException {
-        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-        Date datee = df.parse(date);
-        //Date datee = new Date(date);
-        long utcDateInMil = datee.getTime();
-        String str = "";
-        boolean fail = true;
-        for (int i = 0; i < tdList.size(); i++) {
-            if(tdList.get(i).getDeparture().equals(start) && tdList.get(i).getTakeOffDate().equals(date)){
-                str += gson.toJson(tdList.get(i));
-                fail = false;
-            }
-        }
-        if(fail){
-            throw new NotValidException("No flight found with the given ID");
-        }
-        return str;
+    public Object getFlight(@PathParam("startAirport") String start, @PathParam("date") String date) throws ParseException {
+        return facade.getFlight(start, date);
     }
-    
+
     @GET
     @Produces("application/json")
     @Path("{startAirport}/{endAirport}/{date}")
-    public String getFlightStartEndDate(@PathParam("startAirport") String start, @PathParam("endAirport") String end, @PathParam("date") String date) {
-        String str = "";
-        boolean fail = true;
-        for (int i = 0; i < tdList.size(); i++) {
-            if(tdList.get(i).getDeparture().equals(start) && tdList.get(i).getDestination().equals(end) && (tdList.get(i).getTakeOffDate().equals(date) || tdList.get(i).getLandingDate().equals(date))){
-                str += gson.toJson(tdList.get(i));
-                fail = false;
-            }
-        }
-        if(fail){
-            throw new WebApplicationException("No flight found with the given ID",Response.Status.NOT_FOUND);
-        }
-        return str;
+    public Object getFlightStartEndDate(@PathParam("startAirport") String start, @PathParam("endAirport") String end, @PathParam("date") String date) {
+        return facade.getFlightStartEndDate(start, end, date);
     }
-    
+
     @GET
     @Produces("application/json")
     @Path("{reservationId}")
-    public String getResId(@PathParam("reservationId") String resId) {
-        String str = "";
-        for (int i = 0; i < aRes.size(); i++) {
-            if(aRes.get(i).getReservationID().equals(resId)){
-                str += gson.toJson(aRes.get(i));
-            }
-        }
-        return str;
+    public Object getResId(@PathParam("reservationId") String resId) {
+        return facade.getResId(Integer.parseInt(resId));
     }
+
     @DELETE
     @Produces("application/json")
     @Path("{reservationId}")
-    public String deleteResId(@PathParam("reservationId") String resId) {
-        String str = "";
-        for (int i = 0; i < aRes.size(); i++) {
-            if(aRes.get(i).getReservationID().equals(resId)){
-                str += gson.toJson(aRes.get(i));
-                aRes.remove(i);
-            }
-        }
-        return str;
+    public Object deleteResId(@PathParam("reservationId") String resId) throws NonexistentEntityException {
+        return facade.deleteRes(Integer.parseInt(resId));
     }
 }
-
-

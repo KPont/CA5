@@ -43,6 +43,7 @@ public class ApiResource {
     ArrayList<passengers> aPas = new ArrayList();
     reservation res = new reservation("a358sd", "AW311", aPas, 441.3);
     ArrayList<reservation> aRes = new ArrayList();
+//    facade fac = new facade();
     @Context
     private UriInfo context;
 
